@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AutomatedTestReviewer": {
+      "commandName": "Project",
+      "commandLineArgs": "--path \"C:\\Edwin\\AutomatedTest\" --name CPGMock --testduration 60 --snapshotfrequency 10"
+    }
+  }
+}
