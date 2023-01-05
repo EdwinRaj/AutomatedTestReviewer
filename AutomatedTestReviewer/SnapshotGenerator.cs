@@ -53,17 +53,23 @@ namespace AutomatedTestReviewer
             {
                 Console.WriteLine("Output directory exists");
             }
+           
             System.Timers.Timer snapshotTimer = new System.Timers.Timer();
             snapshotTimer.Elapsed += new ElapsedEventHandler(OnSnapShotTrigger);
             snapshotTimer.Interval = SnapShotFrequencyInSeconds * 1000;
             snapshotTimer.Enabled = true;
 
-            DateTime endTime = DateTime.Now.AddMinutes(TestDurationInMinutes);
-
-            Console.WriteLine("Press \'q\' to quit the sample.");
-            while (Console.Read() != 'q' || DateTime.Now > endTime) ;
+            Thread.Sleep(TestDurationInMinutes *60* 1000);
+            OnTestCompletion();
         }
-        
+
+        private void OnTestCompletion()
+        {
+            Console.WriteLine("Test duration is completed");
+            Console.WriteLine("console is shutting down");
+            Environment.Exit(0);
+        }
+
         bool isRunning = false;
         string lastFileName = null;
 
