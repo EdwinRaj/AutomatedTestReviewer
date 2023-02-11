@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Timers;
+using System.Windows;
 
 namespace AutomatedTestReviewer
 {
@@ -44,7 +45,15 @@ namespace AutomatedTestReviewer
             {
                 Console.WriteLine("Output directory exists");
             }
-           
+
+            Console.WriteLine("Initializing the snapshot process with the below configuration");
+            Console.WriteLine($"Test Name:{TestName}");
+            Console.WriteLine($"Test Duration In Minutes:{TestDurationInMinutes}");
+            Console.WriteLine($"SnapShot frequency In Seconds:{SnapShotFrequencyInSeconds}");
+            Console.WriteLine($"SnapShot Location:{testOutputDirectory}");
+
+
+
             System.Timers.Timer snapshotTimer = new System.Timers.Timer();
             snapshotTimer.Elapsed += new ElapsedEventHandler(OnSnapShotTrigger);
             snapshotTimer.Interval = SnapShotFrequencyInSeconds * 1000;
@@ -69,18 +78,18 @@ namespace AutomatedTestReviewer
             if (!isRunning)
             {
                 isRunning = true;
-                Rectangle bounds = Screen.GetBounds(Point.Empty);
+                Rectangle bounds = Screen.GetBounds(System.Drawing.Point.Empty);
                 using (Bitmap bitmap = new Bitmap(bounds.Width, bounds.Height))
                 {
                     using (Graphics g = Graphics.FromImage(bitmap))
                     {
-                        g.CopyFromScreen(Point.Empty, Point.Empty, bounds.Size);
+                        g.CopyFromScreen(System.Drawing.Point.Empty, System.Drawing.Point.Empty, bounds.Size);
                     }
 
                     var fileName = GetFileName();
                     bitmap.Save(fileName, System.Drawing.Imaging.ImageFormat.Png);
                     lastFileName = fileName;
-
+                    Console.WriteLine($"Snapshot generated at:{fileName}");
                 }
                 isRunning = false;
             }
